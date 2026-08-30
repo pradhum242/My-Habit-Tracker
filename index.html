@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Habits Log · Pradhum's Habot Flow</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-200 antialiased">
+  <!-- Navbar -->
+  <header class="sticky top-0 z-30 border-b border-slate-800 bg-slate-950/80 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+      <a href="index.html" class="flex items-center gap-2 text-lg font-bold tracking-tight">
+        <span class="grid h-8 w-8 place-items-center rounded-xl bg-emerald-500 text-slate-950">
+          <i data-lucide="list-checks" class="h-5 w-5"></i>
+        </span>
+        Pradhum's Habot <span class="text-emerald-400">Flow</span>
+      </a>
+      <nav class="flex items-center gap-1">
+        <a href="index.html" class="nav-active rounded-lg px-3 py-1.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white">Habits Log</a>
+        <a href="analytics.html" class="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white">Analytics</a>
+        <a href="todo.html" class="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white">To-Do</a>
+        <a href="notes.html" class="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white">Notes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-7xl px-4 py-6">
+    <!-- Page header + month navigation -->
+    <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold">Habits Log</h1>
+        <p class="text-sm text-slate-400">Tick your daily habits and watch progress grow.</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1 rounded-xl border border-slate-800 bg-slate-900/60 p-1">
+          <button id="btn-prev" aria-label="Previous month" class="grid h-8 w-8 place-items-center rounded-lg text-slate-400 transition hover:bg-slate-800 hover:text-white">
+            <i data-lucide="chevron-left" class="h-4 w-4"></i>
+          </button>
+          <span id="month-label" class="min-w-[130px] text-center text-sm font-semibold"></span>
+          <button id="btn-next" aria-label="Next month" class="grid h-8 w-8 place-items-center rounded-lg text-slate-400 transition hover:bg-slate-800 hover:text-white">
+            <i data-lucide="chevron-right" class="h-4 w-4"></i>
+          </button>
+        </div>
+        <button id="btn-today" class="rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs font-medium text-slate-300 transition hover:bg-slate-800">Today</button>
+      </div>
+    </div>
+
+    <!-- Summary cards + tools -->
+    <div class="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div class="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
+        <p class="text-xs text-slate-500">Month average</p>
+        <p id="month-avg" class="mt-1 text-2xl font-bold text-emerald-400">0%</p>
+      </div>
+      <div class="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
+        <p class="text-xs text-slate-500">Habits tracked</p>
+        <p id="habit-count" class="mt-1 text-2xl font-bold">6</p>
+      </div>
+      <div class="col-span-2 flex items-center justify-end gap-2 rounded-xl border border-slate-800 bg-slate-900/40 p-4">
+        <button id="btn-manage" class="flex items-center gap-2 rounded-lg bg-emerald-500 px-3 py-2 text-xs font-semibold text-slate-950 transition hover:bg-emerald-400">
+          <i data-lucide="plus" class="h-4 w-4"></i> Add habit
+        </button>
+        <button id="btn-hiii" class="flex items-center gap-2 rounded-lg bg-slate-800 px-3 py-2 text-xs font-medium text-slate-200 transition hover:bg-slate-700">
+          <i data-lucide="hand" class="h-4 w-4"></i> Hiii!!
+        </button>
+        <button id="btn-clear" class="flex items-center gap-2 rounded-lg border border-slate-800 px-3 py-2 text-xs font-medium text-slate-400 transition hover:border-red-500/40 hover:text-red-400">
+          <i data-lucide="rotate-ccw" class="h-4 w-4"></i> Clear month
+        </button>
+      </div>
+    </div>
+
+    <!-- Tracker table -->
+    <div class="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/40">
+      <table class="w-full border-collapse text-sm">
+        <thead id="tracker-head"></thead>
+        <tbody id="tracker-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Manage-habits modal -->
+    <div id="habit-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4">
+      <div class="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900 p-5 shadow-2xl">
+        <div class="mb-4 flex items-center justify-between">
+          <h3 class="text-lg font-semibold">Manage habits</h3>
+          <button id="modal-close" aria-label="Close" class="grid h-8 w-8 place-items-center rounded-lg text-slate-400 transition hover:bg-slate-800 hover:text-white">
+            <i data-lucide="x" class="h-4 w-4"></i>
+          </button>
+        </div>
+
+        <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Your habits</p>
+        <div id="habit-manage-list" class="mb-4 max-h-44 space-y-2 overflow-y-auto pr-1"></div>
+
+        <div class="border-t border-slate-800 pt-4">
+          <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">Add a habit</p>
+          <form id="habit-add-form" class="space-y-3">
+            <input id="habit-name" type="text" maxlength="24" autocomplete="off" placeholder="Habit name (e.g. Meditate)"
+                   class="w-full rounded-lg border border-slate-800 bg-slate-950 px-3 py-2 text-sm placeholder-slate-600 focus:border-emerald-500 focus:outline-none" />
+            <div class="flex items-start gap-4">
+              <div>
+                <label class="mb-1 block text-xs text-slate-400">Color</label>
+                <input id="habit-color" type="color" value="#22d3ee" class="h-9 w-12 cursor-pointer rounded-lg border border-slate-800 bg-slate-950 p-1" />
+              </div>
+              <div class="flex-1">
+                <label class="mb-1 block text-xs text-slate-400">Icon</label>
+                <div id="icon-grid" class="grid grid-cols-8 gap-1"></div>
+                <input id="habit-icon" type="hidden" />
+              </div>
+            </div>
+            <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400">
+              <i data-lucide="plus" class="h-4 w-4"></i> Add habit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts (load order matters: config → utils → storage → page) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/stickers.js"></script>
+  <script src="js/bounce.js"></script>
+  <script src="js/tracker.js"></script>
+</body>
+</html>

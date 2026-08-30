@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notes · Pradhum's Habot Flow</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-200 antialiased">
+  <!-- Navbar -->
+  <header class="sticky top-0 z-30 border-b border-slate-800 bg-slate-950/80 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+      <a href="index.html" class="flex items-center gap-2 text-lg font-bold tracking-tight">
+        <span class="grid h-8 w-8 place-items-center rounded-xl bg-emerald-500 text-slate-950">
+          <i data-lucide="list-checks" class="h-5 w-5"></i>
+        </span>
+        Pradhum's Habot <span class="text-emerald-400">Flow</span>
+      </a>
+      <nav class="flex items-center gap-1">
+        <a href="index.html" class="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white">Habits Log</a>
+        <a href="analytics.html" class="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white">Analytics</a>
+        <a href="todo.html" class="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white">To-Do</a>
+        <a href="notes.html" class="nav-active rounded-lg px-3 py-1.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white">Notes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-7xl px-4 py-6">
+    <div class="mb-5">
+      <h1 class="text-2xl font-bold">Notes &amp; Diary</h1>
+      <p class="text-sm text-slate-400">Jot down what you learned, what to focus on, reminders, or anything about your day.</p>
+    </div>
+
+    <div class="grid gap-5 lg:grid-cols-3">
+      <!-- Editor -->
+      <section class="lg:col-span-2">
+        <!-- Date navigation -->
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <button id="prev-day" aria-label="Previous day"
+                    class="grid h-9 w-9 place-items-center rounded-lg border border-slate-800 bg-slate-900/60 text-slate-400 transition hover:bg-slate-800 hover:text-white">
+              <i data-lucide="chevron-left" class="h-5 w-5"></i>
+            </button>
+            <button id="next-day" aria-label="Next day"
+                    class="grid h-9 w-9 place-items-center rounded-lg border border-slate-800 bg-slate-900/60 text-slate-400 transition hover:bg-slate-800 hover:text-white">
+              <i data-lucide="chevron-right" class="h-5 w-5"></i>
+            </button>
+            <div class="ml-1">
+              <div id="date-label" class="text-base font-semibold leading-tight">Today</div>
+              <div id="date-sub" class="text-xs text-slate-500"></div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <input id="date-input" type="date"
+                   class="rounded-lg border border-slate-800 bg-slate-900 px-3 py-2 text-sm text-slate-300 focus:border-emerald-500 focus:outline-none" />
+            <button id="today-btn"
+                    class="rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white">
+              Today
+            </button>
+          </div>
+        </div>
+
+        <!-- Entry card -->
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
+          <input id="note-title" type="text" autocomplete="off" maxlength="120" placeholder="Title (optional)"
+                 class="mb-3 w-full rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-base font-semibold placeholder-slate-600 focus:border-emerald-500 focus:outline-none" />
+          <textarea id="note-body" rows="14" placeholder="Write about your day…&#10;&#10;• What did I learn today?&#10;• What do I want to focus on?&#10;• Any reminders or things to remember?"
+                    class="w-full resize-y rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm leading-relaxed placeholder-slate-600 focus:border-emerald-500 focus:outline-none"></textarea>
+
+          <div class="mt-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3 text-xs text-slate-500">
+              <span id="word-count">0 words</span>
+              <span id="save-status" class="flex items-center gap-1 text-emerald-400/0 transition">
+                <i data-lucide="check" class="h-3.5 w-3.5"></i> Saved
+              </span>
+            </div>
+            <button id="delete-entry"
+                    class="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-500 transition hover:bg-red-500/10 hover:text-red-400">
+              <i data-lucide="trash-2" class="h-4 w-4"></i> Delete entry
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Entries list -->
+      <aside>
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
+          <div class="mb-3 flex items-center justify-between">
+            <h2 class="text-sm font-semibold text-slate-300">All entries</h2>
+            <span id="entry-count" class="text-xs text-slate-500">0</span>
+          </div>
+          <div class="relative mb-3">
+            <i data-lucide="search" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-600"></i>
+            <input id="entry-search" type="text" autocomplete="off" placeholder="Search notes…"
+                   class="w-full rounded-xl border border-slate-800 bg-slate-950/60 py-2.5 pl-9 pr-3 text-sm placeholder-slate-600 focus:border-emerald-500 focus:outline-none" />
+          </div>
+          <ul id="entry-list" class="max-h-[26rem] space-y-2 overflow-y-auto"></ul>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/notes.js"></script>
+</body>
+</html>

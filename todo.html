@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do · Pradhum's Habot Flow</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-200 antialiased">
+  <!-- Navbar -->
+  <header class="sticky top-0 z-30 border-b border-slate-800 bg-slate-950/80 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+      <a href="index.html" class="flex items-center gap-2 text-lg font-bold tracking-tight">
+        <span class="grid h-8 w-8 place-items-center rounded-xl bg-emerald-500 text-slate-950">
+          <i data-lucide="list-checks" class="h-5 w-5"></i>
+        </span>
+        Pradhum's Habot <span class="text-emerald-400">Flow</span>
+      </a>
+      <nav class="flex items-center gap-1">
+        <a href="index.html" class="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white">Habits Log</a>
+        <a href="analytics.html" class="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white">Analytics</a>
+        <a href="todo.html" class="nav-active rounded-lg px-3 py-1.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white">To-Do</a>
+        <a href="notes.html" class="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white">Notes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-2xl px-4 py-6">
+    <div class="mb-6">
+      <h1 class="text-2xl font-bold">To-Do List</h1>
+      <p class="text-sm text-slate-400">Capture tasks and check them off.</p>
+    </div>
+
+    <form id="todo-form" class="mb-4 flex gap-2">
+      <input id="todo-input" type="text" autocomplete="off" placeholder="What needs to be done?"
+             class="flex-1 rounded-xl border border-slate-800 bg-slate-900 px-4 py-3 text-sm placeholder-slate-600 focus:border-emerald-500 focus:outline-none" />
+      <button type="submit" class="flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400">
+        <i data-lucide="plus" class="h-4 w-4"></i> Add
+      </button>
+    </form>
+
+    <div class="mb-3 flex items-center justify-between">
+      <div class="flex items-center gap-1 rounded-xl bg-slate-800/60 p-1">
+        <button class="tab tab-active rounded-lg px-3 py-1.5 text-xs font-medium text-slate-400 transition hover:text-white" data-filter="all">All</button>
+        <button class="tab rounded-lg px-3 py-1.5 text-xs font-medium text-slate-400 transition hover:text-white" data-filter="active">Active</button>
+        <button class="tab rounded-lg px-3 py-1.5 text-xs font-medium text-slate-400 transition hover:text-white" data-filter="done">Done</button>
+      </div>
+      <span id="todo-count" class="text-xs text-slate-500">0 items left</span>
+    </div>
+
+    <ul id="todo-list" class="space-y-2"></ul>
+
+    <div class="mt-4 flex justify-end">
+      <button id="clear-done" class="text-xs text-slate-500 transition hover:text-red-400">Clear completed</button>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/todo.js"></script>
+</body>
+</html>
